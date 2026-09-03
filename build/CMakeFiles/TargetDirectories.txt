@@ -1,0 +1,3 @@
+/Users/zigeqiao/workspace/Coroutine/build/CMakeFiles/coroutine_test.dir
+/Users/zigeqiao/workspace/Coroutine/build/CMakeFiles/edit_cache.dir
+/Users/zigeqiao/workspace/Coroutine/build/CMakeFiles/rebuild_cache.dir
