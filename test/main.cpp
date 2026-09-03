@@ -1,23 +1,51 @@
-#include<iostream>
-#include "coroutine.h"
-using namespace std;
-void hello(){
-    // cout<<"hello coroutine\n";
-    cout<<"A\n";
+#include <iostream>
+
+#include "scheduler.h"
+
+
+void taskA()
+{
+    std::cout << "A1\n";
+
     yield();
-    cout<<"B\n";
+
+    std::cout << "A2\n";
+
+    yield();
+
+    std::cout << "A3\n";
 }
-int main(){
-    std::cout<<"Coroutine project start\n";
-    Coroutine co(hello);
-    // cout<<"main before resume\n";
-    // co.resume();
-    // cout<<"main after resume\n";
-    cout<<"main 1\n";
-    co.resume();
-    cout<<"main 2\n";
-    co.resume();
-    cout<<"main 3\n";
+
+
+void taskB()
+{
+    std::cout << "B1\n";
+
+    yield();
+
+    std::cout << "B2\n";
+
+    yield();
+
+    std::cout << "B3\n";
+}
+
+
+int main()
+{
+    Scheduler scheduler;
+
+
+    scheduler.add(taskA);
+
+    scheduler.add(taskB);
+
+
+    scheduler.run();
+
+
+    std::cout << "scheduler finished\n";
+
 
     return 0;
 }

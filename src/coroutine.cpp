@@ -8,14 +8,18 @@ bool Coroutine::finished()const{
 }
 Coroutine::Coroutine(Func f){
     func = f;
-    finished = false;
+    state = State::Ready;
     void* stack_top = stack + sizeof(stack);
-    stack_top = (void*)((uintptr_t)stack_top & ~0xFULL);
+    // stack_top = (void*)((uintptr_t)stack_top & ~0xFULL);
+    stack_top = reinterpret_cast<void*>(
+        reinterpret_cast<uintptr_t>(stack_top)&~uintptr_t(0xF)
+    );
     ctx.sp = stack_top;
-    ctx.lr = (void*)coroutine_entry;
+    // ctx.lr = (void*)coroutine_entry;
+    ctx.lr = reinterpret_cast<void*>(coroutine_entry);
 }
 void Coroutine::resume(){
-    if(finished){
+    if(state==State::Finished){
         return;
     }
     current = this;
@@ -25,7 +29,8 @@ void Coroutine::run(){
     func();
 }
 void Coroutine::finish(){
-    finished=true;
+    // finished=true;
+    state = State::Finished;
 }
 extern "C"
 void coroutine_entry(){
@@ -34,5 +39,7 @@ void coroutine_entry(){
     switch_context(&current->ctx,&main_ctx);
 }
 void yield(){
+    current->state = Coroutine::State::Suspended;
+    
     switch_context(&current->ctx,&main_ctx);
 }
