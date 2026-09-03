@@ -1,2 +1,2 @@
 # Coroutine
-A no-stack coroutine based on cpp20
+A stack-based coroutine on cpp20
