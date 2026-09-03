@@ -1,6 +1,6 @@
 #include<scheduler.h>
 void Scheduler::add(Coroutine::Func func){
-    coroutines.push_back(std::make_unique<Coroutine>(func));
+    coroutines.push_back(std::make_unique<Coroutine>(func,this));
     
 }
 void Scheduler::run(){
